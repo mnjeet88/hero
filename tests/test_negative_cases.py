@@ -11,6 +11,7 @@ def test_get_non_existing_booking(api_client):
     response = api_client.get(f"{endpoints.BOOKING}/999999")
 
     logger.info(f"Response for invalid booking: {response.text}")
+    print(response.text)
 
     assert_status_code(response, 404)
 
