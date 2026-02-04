@@ -28,9 +28,13 @@ def test_update_without_auth(api_client):
 
 
 def test_delete_invalid_id(api_client, auth_headers):
+    logger.info("===== NEGATIVE TEST: DELETE INVALID ID =====")
+
     response = api_client.delete(
         f"{endpoints.BOOKING}/999999",
         headers=auth_headers
     )
+
+    logger.info(f"Delete invalid id response: {response.text}")
 
     assert_status_code(response, 405)
