@@ -94,6 +94,8 @@ def test_update_booking(api_client, auth_headers):
 
 
 def test_delete_booking(api_client, auth_headers):
+    logger.info("===== TEST: DELETE BOOKING WITH AUTH =====")
+
     booking_id = pytest.booking_id
 
     response = api_client.delete(
@@ -103,6 +105,10 @@ def test_delete_booking(api_client, auth_headers):
 
     assert_status_code(response, 201)
 
+    logger.info("Booking deleted successfully")
+
     response = api_client.get(f"{endpoints.BOOKING}/{booking_id}")
+
+    logger.info("Trying to fetch deleted booking")
 
     assert_status_code(response, 404)
