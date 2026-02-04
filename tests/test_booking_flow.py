@@ -40,7 +40,7 @@ def test_create_booking(api_client, firstname, lastname):
     assert_field_equal(booking, "firstname", firstname)
     assert_field_equal(booking, "lastname", lastname)
 
-    pytest.booking_id = data["bookingid"]
+    pytest.booking_id = booking_id
 
 
 def test_get_booking(api_client):
