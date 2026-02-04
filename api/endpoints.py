@@ -1,0 +1,2 @@
+AUTH = "/auth"
+BOOKING = "/booking"
