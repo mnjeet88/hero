@@ -19,8 +19,8 @@ def test_create_booking(api_client, firstname, lastname):
         "totalprice": 150,
         "depositpaid": True,
         "bookingdates": {
-            "checkin": "2024-01-01",
-            "checkout": "2024-01-10"
+            "checkin": "2026-02-04",
+            "checkout": "2026-01-5"
         },
         "additionalneeds": "Breakfast"
     }
@@ -40,7 +40,7 @@ def test_create_booking(api_client, firstname, lastname):
     assert_field_equal(booking, "firstname", firstname)
     assert_field_equal(booking, "lastname", lastname)
 
-    pytest.booking_id = booking_id
+    pytest.booking_id = data["bookingid"]
 
 
 def test_get_booking(api_client):
@@ -71,8 +71,8 @@ def test_update_booking(api_client, auth_headers):
         "totalprice": 250,
         "depositpaid": False,
         "bookingdates": {
-            "checkin": "2024-02-01",
-            "checkout": "2024-02-05"
+            "checkin": "2026-03-01",
+            "checkout": "2026-03-05"
         },
         "additionalneeds": "Lunch"
     }
