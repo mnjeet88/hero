@@ -1,6 +1,7 @@
 import pytest
 from api.client import APIClient
 from api import endpoints
+from data.payloads import auth_payload
 from utils.logger import get_logger
 
 logger = get_logger()
@@ -18,10 +19,7 @@ def api_client():
 def auth_token(api_client):
     logger.info("Generating Auth Token")
 
-    payload = {
-        "username": "admin",
-        "password": "password123"
-    }
+    payload = auth_payload()
 
     response = api_client.post(endpoints.AUTH, payload)
 
@@ -38,5 +36,6 @@ def auth_token(api_client):
 def auth_headers(auth_token):
     return {
         "Cookie": f"token={auth_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Accept": "application/json"
     }
