@@ -1,29 +1,19 @@
 import pytest
 from api import endpoints
+from data.payloads import create_booking_payload, update_booking_payload
+from data.testdata import CREATE_BOOKING_DATA
+from data.assertions_data import EXPECTED_UPDATE_VALUES
 from utils.assertions import assert_status_code, assert_field_equal
 from utils.logger import get_logger
 
 logger = get_logger()
 
 
-@pytest.mark.parametrize("firstname, lastname", [
-    ("Manjeet", "Mohan"),
-    ("Sally", "Brown"),
-])
+@pytest.mark.parametrize("firstname, lastname", CREATE_BOOKING_DATA)
 def test_create_booking(api_client, firstname, lastname):
     logger.info("===== TEST: CREATE BOOKING =====")
 
-    payload = {
-        "firstname": firstname,
-        "lastname": lastname,
-        "totalprice": 150,
-        "depositpaid": True,
-        "bookingdates": {
-            "checkin": "2026-02-04",
-            "checkout": "2026-01-5"
-        },
-        "additionalneeds": "Breakfast"
-    }
+    payload = create_booking_payload(firstname, lastname)
 
     response = api_client.post(endpoints.BOOKING, payload)
 
@@ -65,17 +55,7 @@ def test_update_booking(api_client, auth_headers):
 
     booking_id = pytest.booking_id
 
-    payload = {
-        "firstname": "UpdatedName",
-        "lastname": "UpdatedLast",
-        "totalprice": 250,
-        "depositpaid": False,
-        "bookingdates": {
-            "checkin": "2026-03-01",
-            "checkout": "2026-03-05"
-        },
-        "additionalneeds": "Lunch"
-    }
+    payload = update_booking_payload()
 
     response = api_client.put(
         f"{endpoints.BOOKING}/{booking_id}",
@@ -89,8 +69,10 @@ def test_update_booking(api_client, auth_headers):
 
     logger.info(f"Updated Booking Data: {updated}")
 
-    assert_field_equal(updated, "firstname", "UpdatedName")
-    assert_field_equal(updated, "totalprice", 250)
+    # assert_field_equal(updated, "firstname", "UpdatedName")
+    # assert_field_equal(updated, "totalprice", 250)
+    for key, value in EXPECTED_UPDATE_VALUES.items():
+        assert_field_equal(updated, key, value)
 
 
 def test_delete_booking(api_client, auth_headers):
